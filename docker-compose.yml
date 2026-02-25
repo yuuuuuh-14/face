@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data:/app/data
+      - ./backend/models/cache:/app/backend/models/cache
+    environment:
+      - BCC_ENV=production
+    restart: always
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "4200:4200"
+    environment:
+      - NG_CLI_ANALYTICS=false
+    depends_on:
+      - backend
+    restart: always

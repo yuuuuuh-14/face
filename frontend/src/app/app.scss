@@ -1,0 +1,93 @@
+.cyber-progress {
+    height: 4px !important;
+    border-radius: 0;
+    background-color: rgba(243, 255, 0, 0.05) !important;
+
+    ::ng-deep .mdc-linear-progress__bar-inner {
+        border-color: #f3ff00 !important;
+        box-shadow: 0 0 10px #f3ff00;
+    }
+}
+
+.scifi-button {
+    background: rgba(243, 255, 0, 0.15) !important;
+    border: 1px solid rgba(243, 255, 0, 0.4) !important;
+    color: #f3ff00 !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.25em !important;
+    text-transform: uppercase !important;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    border-radius: 0 !important;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: rotate(45deg);
+        transition: 0.5s;
+        pointer-events: none;
+    }
+
+    &:hover {
+        background: rgba(243, 255, 0, 0.25) !important;
+        box-shadow: 0 0 20px rgba(243, 255, 0, 0.3);
+        border-color: #f3ff00 !important;
+
+        &::after {
+            left: 120%;
+        }
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+::ng-deep {
+    .cyber-field {
+        .mdc-notched-outline {
+            border-radius: 0 !important;
+        }
+
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+            border-color: rgba(243, 255, 0, 0.2) !important;
+            border-width: 1px !important;
+        }
+
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__leading,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__notch,
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__trailing {
+            border-color: #f3ff00 !important;
+            border-width: 2px !important;
+            box-shadow: inset 0 0 10px rgba(243, 255, 0, 0.1);
+        }
+
+        .mat-mdc-form-field-label-wrapper {
+            color: rgba(243, 255, 0, 0.5) !important;
+            font-family: var(--font-mono) !important;
+        }
+
+        .mdc-text-field__input {
+            color: #f3ff00 !important;
+            font-family: var(--font-mono) !important;
+            letter-spacing: 0.1em !important;
+        }
+    }
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

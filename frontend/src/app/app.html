@@ -1,0 +1,477 @@
+<div class="h-screen flex flex-col p-4 gap-4 overflow-hidden relative" style="font-family: var(--font-korean);">
+  <!-- Grid Background & Scanlines (Pure CSS) -->
+  <div class="absolute inset-0 pointer-events-none"
+    style="opacity: 0.03; background: linear-gradient(rgba(243,255,0,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(243,255,0,0.2) 1px, transparent 1px); background-size: 40px 40px;">
+  </div>
+  <div class="absolute inset-0 pointer-events-none"
+    style="z-index: 50; opacity: 0.015; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%), linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06)); background-size: 100% 2px, 3px 100%;">
+  </div>
+
+  <!-- Main Header -->
+  <header class="scifi-panel"
+    style="height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 20; flex-shrink: 0; border-bottom: 2px solid rgba(243,255,0,0.3);">
+    <div class="hud-corner tl" style="width: 24px; height: 24px;"></div>
+    <div class="hud-corner tr" style="width: 24px; height: 24px;"></div>
+
+    <div class="flex items-center gap-6">
+      <div class="relative flex items-center justify-center scifi-panel"
+        style="width: 48px; height: 48px; background: rgba(243,255,0,0.05);">
+        <mat-icon class="scifi-text-glow" style="font-size: 30px; width: auto; height: auto;">security</mat-icon>
+        <div class="absolute" style="top: 0; right: 0; width: 6px; height: 6px; background: var(--cyber-primary);">
+        </div>
+      </div>
+      <div>
+        <h1 class="scifi-text-glow"
+          style="font-size: 20px; font-weight: 500; letter-spacing: -0.02em; margin: 0; line-height: 1;">
+          BIOMETRIC_CONTROL_CENTER</h1>
+        <div class="flex items-center gap-3" style="margin-top: 4px;">
+          <span
+            style="font-size: 8px; background: var(--cyber-primary); color: black; padding: 1px 4px; font-weight: 500;">V3.5_STABLE</span>
+          <span style="font-size: 9px; color: rgba(243,255,0,0.4); letter-spacing: 0.3em;">노드_ID: 0x77-ALPHA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-12" style="text-align: right;">
+      <div class="flex flex-col">
+        <span
+          style="color: rgba(243,255,0,0.3); font-size: 8px; letter-spacing: 0.2em; margin-bottom: 4px;">시스템_상태</span>
+        <span
+          style="font-size: 12px; font-weight: 500; letter-spacing: 0.1em; display: flex; align-items: center; gap: 8px;"
+          [style.color]="systemStatus() === 'ONLINE' ? '#10b981' : '#ef4444'">
+          <span class="flicker" style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
+          {{systemStatus() === 'ONLINE' ? '온라인' : '오프라인'}}
+        </span>
+      </div>
+      <div class="flex flex-col">
+        <span
+          style="color: rgba(243,255,0,0.3); font-size: 8px; letter-spacing: 0.2em; margin-bottom: 4px;">세션_업타임</span>
+        <span class="scifi-text-glow"
+          style="font-size: 12px; font-weight: 500; letter-spacing: 0.1em;">{{uptime()}}</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex gap-4 overflow-hidden relative">
+
+    <!-- LEFT SIDEBAR: REGISTRY MANAGEMENT -->
+    <aside style="width: 320px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0;">
+      <section class="scifi-panel flex-1 flex flex-col relative" style="padding: 16px;">
+        <div class="hud-corner tl" style="width: 16px; height: 16px;"></div>
+        <div class="flex items-center justify-between"
+          style="margin-bottom: 16px; border-bottom: 1px solid rgba(243,255,0,0.1); padding-bottom: 8px;">
+          <div class="flex items-center gap-2">
+            <mat-icon
+              style="font-size: 14px; width: auto; height: auto; color: rgba(243,255,0,0.4);">folder_shared</mat-icon>
+            <h2 style="font-size: 10px; font-weight: 500; letter-spacing: 0.3em; margin: 0;">식별자_레지스트리</h2>
+          </div>
+          <span
+            style="font-size: 9px; color: rgba(243,255,0,0.3); font-weight: 400;">[{{registeredNames().length}}]</span>
+        </div>
+
+        <button mat-flat-button class="scifi-button" style="width: 100%; padding: 16px 0; margin-bottom: 16px;"
+          (click)="openRegister()">
+          <mat-icon style="font-size: 16px; width: auto; height: auto;">person_add_alt</mat-icon> 신규_식별자_등록
+        </button>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar" style="display: flex; flex-direction: column; gap: 4px;">
+          <div *ngFor="let name of registeredNames(); let i = index" class="flex items-center justify-between"
+            style="padding: 12px; background: rgba(243,255,0,0.05); border: 1px solid rgba(243,255,0,0.05); transition: all 0.3s;"
+            onmouseover="this.style.background='rgba(243,255,0,0.1)'; this.style.borderColor='rgba(243,255,0,0.3)';"
+            onmouseout="this.style.background='rgba(243,255,0,0.05)'; this.style.borderColor='rgba(243,255,0,0.05)';">
+            <div class="flex items-center gap-3">
+              <span style="font-size: 9px; font-weight: 400; color: rgba(243,255,0,0.4);">{{(i+1).toString().padStart(2,
+                '0')}}</span>
+              <span style="font-size: 12px; font-weight: 500; letter-spacing: 0.1em;">{{name}}</span>
+            </div>
+            <button mat-icon-button style="color: #ef4444; opacity: 0.4;" (click)="handleDelete(name)" title="삭제">
+              <mat-icon style="font-size: 18px;">delete</mat-icon>
+            </button>
+          </div>
+          <p *ngIf="registeredNames().length === 0"
+            style="font-size: 9px; text-align: center; margin-top: 48px; color: rgba(243,255,0,0.2); font-style: italic; letter-spacing: 0.2em; font-weight: 400;">
+            // 기록된_데이터_없음
+          </p>
+        </div>
+      </section>
+    </aside>
+
+    <!-- CENTER FEED: TACTICAL VIEW -->
+    <article class="flex-1 flex flex-col gap-4 relative">
+      <div class="flex-1 scifi-panel relative flex items-center justify-center"
+        style="background: #010101; border-width: 2px;">
+        <div class="hud-corner tl" style="width: 48px; height: 48px; border-width: 4px 0 0 4px;"></div>
+        <div class="hud-corner tr" style="width: 48px; height: 48px; border-width: 4px 4px 0 0;"></div>
+        <div class="hud-corner bl" style="width: 48px; height: 48px; border-width: 0 0 4px 4px;"></div>
+        <div class="hud-corner br" style="width: 48px; height: 48px; border-width: 0 4px 4px 0;"></div>
+
+        <!-- HUD ELEMENTS -->
+        <div class="absolute inset-0 pointer-events-none"
+          style="z-index: 20; padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3"
+              style="background: rgba(0,0,0,0.6); padding: 6px 12px; border: 1px solid rgba(255,255,255,0.1);">
+              <div class="flicker" style="width: 6px; height: 6px; border-radius: 50%; background: #dc2626;"></div>
+              <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.3em; color: white;">LIVE_SIG_CH_01
+                [실시간]</span>
+            </div>
+            <div
+              style="background: rgba(0,0,0,0.6); padding: 6px 12px; border: 1px solid rgba(255,255,255,0.1); font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.7);">
+              센서_0: 640x640 @ 60fps
+            </div>
+          </div>
+
+          <!-- Crosshair Overlay -->
+          <div class="absolute inset-0 flex items-center justify-center" style="opacity: 0.3;">
+            <div
+              style="width: 288px; height: 288px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+              <div style="width: 2px; height: 32px; background: white; position: absolute; top: 0;"></div>
+              <div style="width: 2px; height: 32px; background: white; position: absolute; bottom: 0;"></div>
+              <div style="height: 2px; width: 32px; background: white; position: absolute; left: 0;"></div>
+              <div style="height: 2px; width: 32px; background: white; position: absolute; right: 0;"></div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-end">
+            <div
+              style="font-size: 9px; font-weight: 400; color: rgba(243,255,0,0.6); line-height: 1.6; background: rgba(0,0,0,0.6); padding: 12px; border-left: 2px solid rgba(243,255,0,0.4);">
+              지연시간: 12.4ms<br>
+              신호상태: STABLE<br>
+              암호화: AES-XTS-256
+            </div>
+            <div style="font-size: 8px; text-align: right; color: rgba(255,255,255,0.4); font-weight: 400;">
+              전술_광학_센서_입력_마스터<br>
+              비인가자의 접근은 엄격히 금지됩니다
+            </div>
+          </div>
+        </div>
+
+        <div class="scanner-line"></div>
+        <img src="http://localhost:8001/video_feed"
+          style="max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(0.2) contrast(1.1) brightness(1.1);"
+          alt="Live Tactical Feed">
+
+        <!-- DYNAMIC TRACKING OVERLAYS -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div *ngFor="let face of faces()" [ngStyle]="getBBoxStyle(face)"
+            style="transition: all 0.3s; pointer-events: none;">
+            <!-- Box Corners -->
+            <div class="absolute" style="top: -4px; left: -4px; width: 8px; height: 8px;"
+              [style.background-color]="face.name === 'UNKNOWN' ? '#ef4444' : '#10b981'"></div>
+            <div class="absolute" style="bottom: -4px; right: -4px; width: 8px; height: 8px;"
+              [style.background-color]="face.name === 'UNKNOWN' ? '#ef4444' : '#10b981'"></div>
+
+            <div class="absolute" [style.top]="face.bbox[1] < 60 ? '100%' : '-55px'"
+              style="left: 0; display: flex; flex-direction: column; gap: 4px; width: max-content; z-index: 100;">
+              <div
+                style="padding: 6px 12px; background: rgba(0,0,0,0.9); border: 1px solid; font-size: 10px; font-weight: 500; letter-spacing: 0.1em; box-shadow: 0 0 20px rgba(0,0,0,0.5);"
+                [style.border-color]="face.name !== 'UNKNOWN' ? '#10b981' : '#ef4444'"
+                [style.color]="face.name !== 'UNKNOWN' ? '#10b981' : '#ef4444'">
+                <div class="flex items-center gap-2">
+                  <span style="font-size: 12px; text-shadow: 0 0 10px currentColor;">[{{face.name === 'UNKNOWN' ?
+                    '미식별_대상' : face.name}}]</span>
+                  <span
+                    style="font-size: 9px; background: rgba(255,255,255,0.2); color: white; padding: 0 6px; border-radius: 2px;">{{
+                    face.name !== 'UNKNOWN' ? (face.match_score * 100).toFixed(0) : (face.score * 100).toFixed(0)
+                    }}%</span>
+                </div>
+                <div class="flex items-center gap-2" style="opacity: 0.9; font-size: 9px; margin-top: 2px;">
+                  <span style="letter-spacing: normal; color: #00f3ff;">{{ face.gender === 'MALE' ? '남성' : (face.gender
+                    === 'FEMALE' ? '여성' : '분석_중') }}</span>
+                  <span style="color: rgba(255,255,255,0.5);">|</span>
+                  <span style="letter-spacing: normal; color: #f3ff00;">예상_나이: {{ face.age > 0 ? face.age + '세' : '분석_중'
+                    }}</span>
+                  <span style="color: rgba(255,255,255,0.5);">|</span>
+                  <span style="letter-spacing: normal; font-weight: bold;"
+                    [style.color]="face.liveness === 'REAL' ? '#10b981' : (face.liveness === 'SPOOF' ? '#ef4444' : '#fbbf24')">
+                    [{{ face.liveness === 'REAL' ? '생체_확인' : (face.liveness === 'SPOOF' ? '위조_의심' : '판독_중') }}]
+                  </span>
+                </div>
+              </div>
+              <div class="shadow-glow" style="height: 4px; opacity: 0.6;"
+                [style.background-color]="face.name !== 'UNKNOWN' ? '#10b981' : '#ef4444'"
+                [style.width.%]="face.name !== 'UNKNOWN' ? face.match_score * 100 : face.score * 100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM LOGS AREA (ACCESS HISTORY) -->
+      <section class="h-48 scifi-panel flex flex-col relative shrink-0" style="padding: 16px;">
+        <div class="hud-corner bl" style="width: 16px; height: 16px;"></div>
+        <div class="flex items-center justify-between"
+          style="margin-bottom: 12px; border-bottom: 1px solid rgba(243,255,0,0.1); padding-bottom: 8px;">
+          <div class="flex items-center gap-2">
+            <span class="flicker"
+              style="width: 6px; height: 6px; background: rgba(243,255,0,0.8); border-radius: 50%;"></span>
+            <h2 style="font-size: 10px; font-weight: 500; letter-spacing: 0.3em; margin: 0;">DB_접근_기록_스트림</h2>
+          </div>
+          <span style="font-size: 8px; color: rgba(243,255,0,0.3); font-weight: 400;">(최근 50건) 자동-동기화 중...</span>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar" style="display: flex; flex-direction: column; gap: 4px;">
+          <!-- Table Header -->
+          <div class="flex"
+            style="padding: 4px 8px; background: rgba(243,255,0,0.1); border-bottom: 1px solid rgba(243,255,0,0.2); font-size: 8px; color: rgba(243,255,0,0.5); letter-spacing: 0.2em; font-weight: 500;">
+            <div style="flex: 1; min-width: 40px;">#ID</div>
+            <div style="flex: 2; min-width: 80px;">인증_시각</div>
+            <div style="flex: 3; min-width: 100px;">식별자_코드</div>
+            <div style="flex: 2; min-width: 80px;">생체_활성도(Liveness)</div>
+          </div>
+
+          <!-- Access Logs Render -->
+          <ng-container *ngIf="accessHistory().length > 0; else noLogs">
+            <div *ngFor="let entry of accessHistory()" class="flex items-center"
+              style="padding: 8px; font-size: 10px; font-family: var(--font-mono); font-weight: 500; border-bottom: 1px solid rgba(243,255,0,0.05); transition: background 0.2s;"
+              onmouseover="this.style.background='rgba(243,255,0,0.05)'"
+              onmouseout="this.style.background='transparent'">
+              <div style="flex: 1; color: rgba(243,255,0,0.3);">{{entry.id}}</div>
+              <div style="flex: 2; color: #fefce8;">{{entry.timestamp}}</div>
+              <!-- 이름에 따른 색상 분기 -->
+              <div style="flex: 3;" [style.color]="entry.name === 'UNKNOWN' ? '#ef4444' : '#10b981'">
+                {{entry.name === 'UNKNOWN' ? '미식별_대상' : entry.name}}
+              </div>
+              <!-- 활성도에 따른 색상 분기 -->
+              <div style="flex: 2;"
+                [style.color]="entry.liveness === 'REAL' ? '#10b981' : (entry.liveness === 'SPOOF' ? '#ef4444' : '#fbbf24')">
+                [{{entry.liveness}}]
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #noLogs>
+            <div
+              style="padding: 24px; text-align: center; color: rgba(243,255,0,0.2); font-size: 9px; letter-spacing: 0.2em; font-style: italic;">
+              // 기록된_DB_접근내역_없음
+            </div>
+          </ng-template>
+        </div>
+      </section>
+    </article>
+
+    <!-- RIGHT SIDEBAR: IDENTITY ANALYSIS -->
+    <aside style="width: 320px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0;">
+      <section class="scifi-panel flex-1 flex flex-col items-center relative" style="padding: 24px; gap: 32px;">
+        <div class="hud-corner tr" style="width: 32px; height: 32px;"></div>
+        <div class="hud-corner bl" style="width: 32px; height: 32px;"></div>
+
+        <div style="text-align: center; width: 100%;">
+          <h2
+            style="font-size: 10px; font-weight: 500; letter-spacing: 0.5em; color: rgba(243,255,0,0.4); margin-bottom: 8px;">
+            식별자_상세_분석</h2>
+          <div
+            style="height: 1px; width: 100%; background: linear-gradient(90deg, transparent, rgba(243,255,0,0.3), transparent);">
+          </div>
+        </div>
+
+        <div class="relative flex items-center justify-center" style="width: 192px; height: 192px;">
+          <div class="absolute inset-0"
+            style="border: 1px solid rgba(243,255,0,0.1); border-radius: 50%; animation: spin 25s linear infinite;">
+          </div>
+          <div class="absolute"
+            style="top: 16px; right: 16px; bottom: 16px; left: 16px; border: 2px dashed rgba(243,255,0,0.2); border-radius: 50%; animation: spin 12s linear infinite reverse;">
+          </div>
+
+          <div class="relative overflow-hidden flex items-center justify-center"
+            style="width: 144px; height: 144px; border-radius: 50%; background: rgba(243,255,0,0.05); border: 1px solid rgba(243,255,0,0.3); backdrop-filter: blur(8px);">
+            <div class="absolute inset-0"
+              style="background: linear-gradient(to top right, rgba(243,255,0,0.1), transparent);"></div>
+            <mat-icon *ngIf="faces().length > 0 && faces()[0].name !== 'UNKNOWN'" class="flicker"
+              style="color: #10b981; font-size: 70px; width: auto; height: auto;">check_circle</mat-icon>
+            <mat-icon *ngIf="!(faces().length > 0 && faces()[0].name !== 'UNKNOWN')"
+              style="color: rgba(243,255,0,0.1); font-size: 70px; width: auto; height: auto;">face_retouching_natural</mat-icon>
+          </div>
+        </div>
+
+        <div class="w-full" style="display: flex; flex-direction: column; gap: 24px;">
+          <div style="text-align: center;">
+            <span
+              style="font-size: 9px; color: rgba(243,255,0,0.4); letter-spacing: 0.5em; font-weight: 400; margin-bottom: 12px; display: block;">대상_식별_결과</span>
+            <div class="scifi-text-glow"
+              style="font-size: 28px; font-weight: 500; letter-spacing: -0.05em; line-height: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 16px;"
+              [style.color]="faces().length > 0 && faces()[0].name !== 'UNKNOWN' ? '#10b981' : 'var(--cyber-primary)'">
+              {{ (faces().length > 0 && faces()[0].name !== 'UNKNOWN') ? faces()[0].name : '미식별_대상' }}
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="flex justify-between"
+              style="padding: 12px; background: rgba(243,255,0,0.05); border-left: 2px solid rgba(243,255,0,0.2);">
+              <span style="font-size: 8px; color: rgba(243,255,0,0.4); font-weight: 400;">보안_승인_등급</span>
+              <span style="font-size: 10px; font-weight: 500;"
+                [style.color]="faces().length > 0 && faces()[0].name !== 'UNKNOWN' ? '#10b981' : '#dc2626'">
+                {{ (faces().length > 0 && faces()[0].name !== 'UNKNOWN') ? '승인됨' : '제한됨' }}
+              </span>
+            </div>
+            <div class="flex justify-between"
+              style="padding: 12px; background: rgba(243,255,0,0.05); border-left: 2px solid rgba(243,255,0,0.2);">
+              <span style="font-size: 8px; color: rgba(243,255,0,0.4); font-weight: 400;">일치_확률</span>
+              <span style="font-size: 10px; font-weight: 500; color: var(--cyber-primary);">
+                {{ faces().length > 0 ? (faces()[0].score * 100).toFixed(2) + '%' : '0.00%' }}
+              </span>
+            </div>
+            <div class="flex justify-between"
+              style="padding: 12px; background: rgba(243,255,0,0.05); border-left: 2px solid rgba(243,255,0,0.2);">
+              <span style="font-size: 8px; color: rgba(243,255,0,0.4); font-weight: 400;">추정_성별</span>
+              <span style="font-size: 10px; font-weight: 500; color: #00f3ff;">
+                {{ faces().length > 0 ? (faces()[0].gender === 'MALE' ? '남성' : (faces()[0].gender === 'FEMALE' ? '여성' :
+                '분석_중')) : 'N/A' }}
+              </span>
+            </div>
+            <div class="flex justify-between"
+              style="padding: 12px; background: rgba(243,255,0,0.05); border-left: 2px solid rgba(243,255,0,0.2);">
+              <span style="font-size: 8px; color: rgba(243,255,0,0.4); font-weight: 400;">추정_나이</span>
+              <span style="font-size: 10px; font-weight: 500; color: #00f3ff;">
+                {{ faces().length > 0 ? (faces()[0].age > 0 ? faces()[0].age + '세' : '분석_중') : '0세' }}
+              </span>
+            </div>
+            <div class="flex justify-between"
+              style="padding: 12px; background: rgba(243,255,0,0.05); border-left: 2px solid rgba(243,255,0,0.2);">
+              <span style="font-size: 8px; color: rgba(243,255,0,0.4); font-weight: 400;">생체_활성도</span>
+              <span style="font-size: 10px; font-weight: 500;"
+                [style.color]="faces().length > 0 ? (faces()[0].liveness === 'REAL' ? '#10b981' : (faces()[0].liveness === 'SPOOF' ? '#ef4444' : '#fbbf24')) : '#666'">
+                {{ faces().length > 0 ? (faces()[0].liveness === 'REAL' ? '정상(REAL)' : (faces()[0].liveness === 'SPOOF'
+                ? '위조(SPOOF)' : '분석_중')) : '대기_중' }}
+              </span>
+            </div>
+            <div class="flex justify-between"
+              style="padding: 12px; background: rgba(243,255,0,0.05); border-left: 2px solid rgba(243,255,0,0.2);">
+              <span style="font-size: 8px; color: rgba(243,255,0,0.4); font-weight: 400;">프로토콜_코드</span>
+              <span style="font-size: 10px; font-weight: 500; color: rgba(243,255,0,0.7);">
+                PX-{{ faces().length > 0 ? '772' : '000' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-auto w-full"
+          style="padding: 16px; border: 1px solid rgba(243,255,0,0.1); background: rgba(0,0,0,0.4); font-size: 9px; font-weight: 400; color: rgba(243,255,0,0.3); text-align: center; letter-spacing: 0.3em;">
+          생체_인증_시스템_활성_노드
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <!-- FOOTER: GLOBAL STATUS TASKBAR -->
+  <footer class="scifi-panel"
+    style="height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-size: 9px; flex-shrink: 0; border-top: 2px solid rgba(243,255,0,0.3);">
+    <div class="hud-corner bl" style="width: 16px; height: 16px;"></div>
+    <div class="hud-corner br" style="width: 16px; height: 16px;"></div>
+
+    <div class="flex gap-10 items-center">
+      <div class="flex items-center gap-3">
+        <div class="flicker" style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></div>
+        <span style="letter-spacing: 0.2em; font-weight: 500; color: rgba(16,185,129,0.8);">통신_링크_암호화됨</span>
+      </div>
+      <div class="hidden sm:flex gap-6 font-bold" style="color: rgba(243,255,0,0.5);">
+        <span><span style="color: rgba(255,255,255,0.4); margin-right: 4px;">좌표:</span> 37.5665N, 126.9780E</span>
+        <span><span style="color: rgba(255,255,255,0.4); margin-right: 4px;">환경:</span> 24.2C | 45.1%</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-8">
+      <span class="hidden md:inline"
+        style="color: rgba(243,255,0,0.3); font-weight: 500; letter-spacing: 0.4em;">인증_프로토콜: [XTS-256]</span>
+      <div class="flex items-center gap-4"
+        style="background: rgba(243,255,0,0.1); padding: 4px 16px; border: 1px solid rgba(243,255,0,0.2);">
+        <span style="font-weight: 500; color: var(--cyber-primary); letter-spacing: -0.05em;">OS_인터페이스_버전_3.5</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- REGISTRATION MODAL UI -->
+  <div *ngIf="showRegisterModal()" class="absolute inset-0 z-100 flex items-center justify-center"
+    style="background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); padding: 16px;">
+    <mat-card class="scifi-panel"
+      style="width: 100%; max-width: 512px; padding: 40px; display: flex; flex-direction: column; gap: 32px; position: relative; border-width: 2px;">
+      <div class="hud-corner tl" style="width: 64px; height: 64px; border-width: 4px 0 0 4px;"></div>
+      <div class="hud-corner tr" style="width: 64px; height: 64px; border-width: 4px 4px 0 0;"></div>
+      <div class="hud-corner bl" style="width: 64px; height: 64px; border-width: 0 0 4px 4px;"></div>
+      <div class="hud-corner br" style="width: 64px; height: 64px; border-width: 0 4px 4px 0;"></div>
+
+      <div class="flex justify-between items-start"
+        style="border-bottom: 1px solid rgba(243,255,0,0.2); padding-bottom: 32px;">
+        <div class="flex items-center gap-6">
+          <div class="scifi-panel"
+            style="padding: 16px; background: rgba(243,255,0,0.1); border: 1px solid rgba(243,255,0,0.4); position: relative;">
+            <mat-icon
+              style="color: var(--cyber-primary); font-size: 40px; width: auto; height: auto;">fingerprint</mat-icon>
+            <div class="absolute"
+              style="top: -4px; left: -4px; width: 8px; height: 8px; background: var(--cyber-primary);"></div>
+          </div>
+          <div>
+            <h2 class="scifi-text-glow" style="font-size: 24px; font-weight: 500; letter-spacing: 0.2em; margin: 0;">
+              식별자_등록_절차</h2>
+            <p
+              style="font-size: 10px; color: rgba(243,255,0,0.4); letter-spacing: 0.4em; font-weight: 400; margin: 4px 0 0 0;">
+              생체_데이터_포인트_보안_확보_중...</p>
+          </div>
+        </div>
+        <button mat-icon-button (click)="closeRegister()" [disabled]="isRegistering()"
+          style="color: rgba(243,255,0,0.2); transition: all 0.3s;"
+          onmouseover="this.style.color='var(--cyber-primary)';" onmouseout="this.style.color='rgba(243,255,0,0.2)';">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div
+          style="padding: 24px; background: rgba(243,255,0,0.05); border-left: 4px solid rgba(243,255,0,0.6); position: relative; overflow: hidden;">
+          <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(243,255,0,0.05), transparent);">
+          </div>
+          <p
+            style="font-size: 12px; color: #fefce8; line-height: 1.6; font-weight: 400; position: relative; z-index: 10; margin: 0;">
+            [경고] 생체 서명은 보안 코어에 영구 저장됩니다. 대상이 광학 센서 정중앙에 위치하도록 하십시오.
+          </p>
+        </div>
+
+        <mat-form-field appearance="outline" class="cyber-field" style="width: 100%;">
+          <mat-label style="letter-spacing: 0.5em; font-weight: 500;">식별자_ID</mat-label>
+          <input matInput [(ngModel)]="newName" placeholder="이름 또는 식별 코드를 입력하세요..."
+            (keyup.enter)="!isRegistering() && handleRegister()" [disabled]="isRegistering()"
+            style="font-weight: 500; letter-spacing: 0.1em; font-size: 18px; color: var(--cyber-primary);">
+        </mat-form-field>
+      </div>
+
+      <div class="flex gap-4">
+        <button mat-stroked-button class="scifi-button" [disabled]="isRegistering()" style="flex: 1; height: 64px;"
+          (click)="closeRegister()">등록_취소</button>
+        <button mat-flat-button color="primary" class="scifi-button"
+          style="flex: 1; height: 64px; background: var(--cyber-primary) !important; color: black !important;"
+          [disabled]="isRegistering() || !newName().trim()" (click)="handleRegister()">
+          {{ isRegistering() ? '등록_중...' : '기록_승인' }}
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes flicker {
+    0% {
+      opacity: 0.5;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0.5;
+    }
+  }
+
+  .flicker {
+    animation: flicker 0.2s infinite;
+  }
+</style>
