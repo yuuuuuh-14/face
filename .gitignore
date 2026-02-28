@@ -89,3 +89,6 @@ backend/data/*
 !backend/data/.gitkeep
 data/*
 !data/.gitkeep
+
+BLOG_POST.md
+BLOG_POST_EN.md
