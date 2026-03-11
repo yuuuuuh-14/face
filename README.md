@@ -64,5 +64,5 @@ If you want to understand the BCC project deeply, please read the documents belo
 - 📖 **[Learning Workbook (docs/WORKBOOK_EN.md)](docs/WORKBOOK_EN.md)** - A comprehensive guidebook explaining the system's foundational principles and technical details
 
 ---
-**License**: LGPL v2.1 
+**License**: AGPL v3.0 
 **Status**: Active / Supported
