@@ -1,5 +1,5 @@
 [🇰🇷 한국어 문서](README_KR.md)
-[![BCC CI](https://github.com/yuuuuuh14/face/actions/workflows/bcc-ci.yml/badge.svg)](https://github.com/yuuuuuh14/face/actions/workflows/bcc-ci.yml)
+[![BCC CI](https://github.com/yuuuuuh-14/face/actions/workflows/bcc-ci.yml/badge.svg)](https://github.com/yuuuuuh-14/face/actions/workflows/bcc-ci.yml)
 
 # 👁️ BIOMETRIC_CONTROL_CENTER (BCC)
 
