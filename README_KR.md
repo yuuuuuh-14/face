@@ -1,5 +1,5 @@
 [🌐 EN VERSION](README.md)
-[![BCC CI](https://github.com/yuuuuuh14/face/actions/workflows/bcc-ci.yml/badge.svg)](https://github.com/yuuuuuh14/face/actions/workflows/bcc-ci.yml)
+[![BCC CI](https://github.com/yuuuuuh-14/face/actions/workflows/bcc-ci.yml/badge.svg)](https://github.com/yuuuuuh-14/face/actions/workflows/bcc-ci.yml)
 
 # 👁️ BIOMETRIC_CONTROL_CENTER (BCC)
 **Sci-Fi HUD 기반 로컬 실시간 얼굴 인식 시스템 v3.5 Stable**
