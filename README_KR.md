@@ -63,5 +63,5 @@ BCC 프로젝트를 깊이 이해하고 싶다면 아래 문서들을 순서대�
 - 📖 **[학습 워크북 (docs/WORKBOOK.md)](docs/WORKBOOK.md)** - 시스템의 기반 원리와 기술적 디테일을 설명하는 종합 가이드북
 
 ---
-**License**: LGPL v2.1 
+**License**: AGPL v3.0 
 **Status**: Active / Supported
